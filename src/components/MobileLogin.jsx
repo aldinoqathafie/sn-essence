@@ -1,40 +1,56 @@
 import React from "react";
-import background from "../assets/backgroundhp.jpg";
+import bg from "../assets/backgroundhp.jpg";
+import Variants from "./Variants";
 
-const MobileLogin = () => {
+export default function MobileLogin() {
   return (
     <div
-      className="relative w-full h-screen bg-cover bg-center flex items-center justify-center"
-      style={{ backgroundImage: `url(${background})` }}
+      className="relative flex flex-col items-center justify-center h-screen w-screen bg-cover bg-center overflow-hidden"
+      style={{
+        backgroundImage: `url(${bg})`,
+      }}
     >
-      {/* Glass Login Box */}
-      <div className="absolute bottom-20 w-[80%] max-w-sm backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl p-6 flex flex-col items-center">
-        {/* Icon User */}
-        <div className="text-white text-4xl mb-4">
-          <i className="fa-regular fa-user"></i>
-        </div>
+      {/* === Variants (bebas atur posisi) === */}
+      <div
+        className="absolute z-[50] flex justify-center items-center"
+        style={{
+          top: "350px", // ubah jarak dari atas
+          left: "50%",
+          transform: "translateX(-50%) scale(0.6)", // ubah scale sesuai kebutuhan
+        }}
+      >
+        <Variants />
+      </div>
 
-        {/* Username */}
+      {/* === Teks utama === */}
+      <div className="text-center mb-10 select-none relative z-[2] mt-48">
+        <h1 className="text-white text-6xl font-extrabold tracking-tight leading-none drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">
+          SN Essence
+        </h1>
+        <h2 className="text-yellow-400 text-3xl font-bold mt-3 tracking-widest drop-shadow-[0_0_10px_rgba(255,255,100,0.3)]">
+          PREMIUM
+        </h2>
+        <p className="text-white text-lg font-medium mt-3 opacity-90 tracking-wide">
+          Solusi Memancing Maksimal
+        </p>
+      </div>
+
+      {/* === Form login === */}
+      <div className="w-3/4 max-w-sm p-6 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-lg relative z-[2] -mt-4">
         <input
           type="text"
-          placeholder="user name"
-          className="w-full mb-3 px-4 py-2 bg-transparent border border-white/40 rounded-md text-white placeholder-white/60 focus:outline-none"
+          placeholder="Username"
+          className="w-full mb-3 p-3 rounded-lg bg-transparent border border-white/30 text-white placeholder-white/70 focus:outline-none"
         />
-
-        {/* Password */}
         <input
           type="password"
-          placeholder="password"
-          className="w-full mb-4 px-4 py-2 bg-transparent border border-white/40 rounded-md text-white placeholder-white/60 focus:outline-none"
+          placeholder="Password"
+          className="w-full mb-3 p-3 rounded-lg bg-transparent border border-white/30 text-white placeholder-white/70 focus:outline-none"
         />
-
-        {/* Button */}
-        <button className="w-full py-2 bg-white/20 border border-white/30 rounded-md text-white font-semibold tracking-wider hover:bg-white/30 transition">
+        <button className="w-full p-3 bg-yellow-600 hover:bg-yellow-500 text-white font-semibold rounded-lg transition">
           LOGIN
         </button>
       </div>
     </div>
   );
-};
-
-export default MobileLogin;
+}

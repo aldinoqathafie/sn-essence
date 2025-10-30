@@ -12,8 +12,7 @@ export default function Variants() {
   const [isDragging, setIsDragging] = useState(false);
   const startX = useRef(0);
 
-  const prev = () =>
-    setIndex((i) => (i - 1 + variants.length) % variants.length);
+  const prev = () => setIndex((i) => (i - 1 + variants.length) % variants.length);
   const next = () => setIndex((i) => (i + 1) % variants.length);
 
   const handleStart = (clientX) => {
@@ -24,14 +23,14 @@ export default function Variants() {
   const handleMove = (clientX) => {
     if (!isDragging) return;
     const delta = clientX - startX.current;
-    const limited = Math.max(Math.min(delta, 150), -150);
+    const limited = Math.max(Math.min(delta, 200), -200);
     setDragX(limited);
   };
 
   const handleEnd = () => {
     setIsDragging(false);
-    if (dragX > 80) prev();
-    else if (dragX < -80) next();
+    if (dragX > 100) next(); // ← dibalik
+    else if (dragX < -100) prev(); // ← dibalik
     setDragX(0);
   };
 
@@ -42,29 +41,27 @@ export default function Variants() {
   ];
 
   return (
-    <div className="fixed left-[24%] -translate-x-1/2 bottom-40 z-[9999] select-none">
-      <div className="flex flex-col items-center">
-        <h1 className="mb-3 text-[2.5rem] font-extrabold text-white/10 tracking-widest select-none">
+    <div className="fixed left-1/2 -translate-x-1/2 bottom-40 z-[9999] select-none">
+      <div className="flex flex-col items-center perspective-[1200px]">
+        <h1 className="mb-3 text-[1.5rem] font-extrabold text-white/50 tracking-widest select-none">
           ALL VARIANTS
         </h1>
 
-        <div className="flex items-center gap-4 overflow-hidden w-[560px] justify-center relative">
+        <div className="relative flex items-center justify-center w-[560px] h-[220px] overflow-visible">
           {/* Tombol kiri */}
           <button
-            onClick={prev}
-            className="text-white text-4xl px-3 py-1 hover:text-yellow-400 transition z-10"
+            onClick={next} // ← dibalik
+            className="absolute left-0 text-white text-4xl px-3 py-1 hover:text-yellow-400 transition z-20"
           >
             ❮
           </button>
 
           {/* Area gambar */}
           <div
-            className={`flex items-center gap-8 ${
-              isDragging ? "cursor-grabbing" : "cursor-grab"
-            }`}
+            className="relative w-full flex justify-center items-center transition-transform duration-300"
             style={{
-              transform: `translateX(${dragX}px)`,
-              transition: isDragging ? "none" : "transform 0.3s ease-in-out",
+              transform: `translateX(${dragX * 0.3}px)`,
+              perspective: "1200px",
             }}
             onMouseDown={(e) => handleStart(e.clientX)}
             onMouseMove={(e) => handleMove(e.clientX)}
@@ -78,9 +75,12 @@ export default function Variants() {
             <img
               src={visible[0]}
               alt="prev"
-              className="w-[120px] opacity-50 blur-[1px] transition-all duration-300"
+              className="absolute transition-all duration-500 ease-out"
               style={{
-                transform: `scale(${1 - Math.abs(dragX + 150) / 800})`,
+                width: "140px",
+                transform: `translateX(-180px) rotateY(35deg) scale(0.8)`,
+                opacity: 0.6,
+                zIndex: 1,
               }}
               draggable={false}
             />
@@ -89,10 +89,12 @@ export default function Variants() {
             <img
               src={visible[1]}
               alt="current"
-              className="w-[190px] transition-all duration-300 drop-shadow-[0_0_25px_rgba(255,255,255,0.5)]"
+              className="absolute transition-all duration-500 ease-out drop-shadow-[0_0_25px_rgba(255,255,255,0.6)]"
               style={{
-                transform: `scale(${1 - Math.abs(dragX) / 600})`,
-                filter: `brightness(${1 - Math.abs(dragX) / 800})`,
+                width: "200px",
+                transform: `translateX(${dragX / 5}px) rotateY(${dragX / 30}deg) scale(1)`,
+                opacity: 1,
+                zIndex: 3,
               }}
               draggable={false}
             />
@@ -101,9 +103,12 @@ export default function Variants() {
             <img
               src={visible[2]}
               alt="next"
-              className="w-[120px] opacity-50 blur-[1px] transition-all duration-300"
+              className="absolute transition-all duration-500 ease-out"
               style={{
-                transform: `scale(${1 - Math.abs(dragX - 150) / 800})`,
+                width: "140px",
+                transform: `translateX(180px) rotateY(-35deg) scale(0.8)`,
+                opacity: 0.6,
+                zIndex: 1,
               }}
               draggable={false}
             />
@@ -111,8 +116,8 @@ export default function Variants() {
 
           {/* Tombol kanan */}
           <button
-            onClick={next}
-            className="text-white text-4xl px-3 py-1 hover:text-yellow-400 transition z-10"
+            onClick={prev} // ← dibalik
+            className="absolute right-0 text-white text-4xl px-3 py-1 hover:text-yellow-400 transition z-20"
           >
             ❯
           </button>
