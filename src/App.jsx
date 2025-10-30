@@ -1,23 +1,31 @@
 import React from "react";
-import Header from "./components/Header";
-import Hero from "./components/Hero";
-import Variants from "./components/Variants";
+import { Routes, Route, Navigate } from "react-router-dom";
 import MobileLogin from "./components/MobileLogin";
+import PCLogin from "./components/PCLogin";
+import Login from "./components/Login"; // jembatan otomatis
+import AdminDashboard from "./pages/AdminDashboard";
+import UserDashboard from "./pages/UserDashboard";
+import { AuthProvider } from "./context/AuthContext";
 
 export default function App() {
-  const isMobile = window.innerWidth < 768;
-
   return (
-    <>
-      {isMobile ? (
-        <MobileLogin />
-      ) : (
-        <div className="relative w-full min-h-screen overflow-visible">
-          <Header />
-          <Variants /> {/* tetap fixed, tampil di atas */}
-          <Hero />
-        </div>
-      )}
-    </>
+    <AuthProvider>
+      <Routes>
+        {/* Halaman awal langsung login otomatis */}
+        <Route path="/" element={<Login />} />
+
+        {/* Manual akses login juga pakai deteksi otomatis */}
+        <Route path="/login" element={<Login />} />
+
+        {/* Dashboard admin */}
+        <Route path="/admin" element={<AdminDashboard />} />
+
+        {/* Dashboard user */}
+        <Route path="/user" element={<UserDashboard />} />
+
+        {/* Redirect fallback */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </AuthProvider>
   );
 }

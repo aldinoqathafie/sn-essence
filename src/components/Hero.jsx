@@ -26,10 +26,10 @@ export default function Hero() {
         </div>
 
         <div className="text-left pl-5 mt-4">
-          <h2 className="text-4xl font-semibold mb-4 leading-tight">
+          <h2 className="text-6xl font-semibold mb-4 leading-tight">
             Solusi Memancing Maksimal
           </h2>
-          <p className="text-xl leading-snug text-gray-200 max-w-3xl">
+          <p className="text-3xl leading-snug text-gray-200 max-w-3xl">
             Nikmati kualitas essence terbaik dari SN Essence Premium,
             pilihan para pemancing profesional di seluruh Indonesia.
           </p>

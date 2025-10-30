@@ -1,56 +1,62 @@
-import React from "react";
-import bg from "../assets/backgroundhp.jpg";
-import Variants from "./Variants";
+import React, { useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import bg from "../assets/background.jpg";
+import LoginForm from "./LoginForm";
+import Variants from "./Variants"; // import Variants.jsx
 
 export default function MobileLogin() {
+  const { user, login } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogin = ({ email, password }) => {
+    login(email, password);
+  };
+
+  useEffect(() => {
+    if (user?.role === "admin") navigate("/admin", { replace: true });
+    else if (user?.role === "user") navigate("/user", { replace: true });
+  }, [user, navigate]);
+
   return (
     <div
-      className="relative flex flex-col items-center justify-center h-screen w-screen bg-cover bg-center overflow-hidden"
+      className="relative flex flex-col items-center min-h-screen px-4 py-6 text-white"
       style={{
         backgroundImage: `url(${bg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
       }}
     >
-      {/* === Variants (bebas atur posisi) === */}
-      <div
-        className="absolute z-[50] flex justify-center items-center"
-        style={{
-          top: "350px", // ubah jarak dari atas
-          left: "50%",
-          transform: "translateX(-50%) scale(0.6)", // ubah scale sesuai kebutuhan
-        }}
-      >
-        <Variants />
-      </div>
-
-      {/* === Teks utama === */}
-      <div className="text-center mb-10 select-none relative z-[2] mt-48">
-        <h1 className="text-white text-6xl font-extrabold tracking-tight leading-none drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">
-          SN Essence
+      {/* Header / Branding */}
+      <div className="absolute top-2 w-full text-center select-none">
+        <h1 className="text-[1.8rem] sm:text-[2.5rem] font-extrabold leading-none drop-shadow-lg">
+          SN ESSENCE
         </h1>
-        <h2 className="text-yellow-400 text-3xl font-bold mt-3 tracking-widest drop-shadow-[0_0_10px_rgba(255,255,100,0.3)]">
-          PREMIUM
-        </h2>
-        <p className="text-white text-lg font-medium mt-3 opacity-90 tracking-wide">
-          Solusi Memancing Maksimal
-        </p>
+        <div className="bg-[#2b1d16]/90 inline-block px-3 py-0.5 mt-1 rounded-sm">
+          <p className="text-yellow-500 text-lg sm:text-xl tracking-[0.25em] font-semibold">
+            PREMIUM
+          </p>
+        </div>
+        <div className="mt-1 px-2">
+          <h2 className="text-base sm:text-lg font-semibold leading-tight">
+            Solusi Memancing Maksimal
+          </h2>
+          <p className="text-xs sm:text-sm leading-snug text-gray-200">
+            Nikmati kualitas essence terbaik dari SN Essence Premium, pilihan para
+            pemancing profesional di seluruh Indonesia.
+          </p>
+        </div>
       </div>
 
-      {/* === Form login === */}
-      <div className="w-3/4 max-w-sm p-6 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-lg relative z-[2] -mt-4">
-        <input
-          type="text"
-          placeholder="Username"
-          className="w-full mb-3 p-3 rounded-lg bg-transparent border border-white/30 text-white placeholder-white/70 focus:outline-none"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full mb-3 p-3 rounded-lg bg-transparent border border-white/30 text-white placeholder-white/70 focus:outline-none"
-        />
-        <button className="w-full p-3 bg-yellow-600 hover:bg-yellow-500 text-white font-semibold rounded-lg transition">
-          LOGIN
-        </button>
+      {/* Login Form */}
+      <div className="mt-auto mb-6 transform scale-50 -translate-y-40 w-full max-w-sm flex justify-center items-center">
+        <LoginForm onSubmit={handleLogin} />
       </div>
-    </div>
+
+      {/* Variants di bagian paling bawah, menggunakan absolute positioning */}
+      <div className="absolute bottom-24 w-30 max-w-md px-2 sm:px-4 pb-4 flex justify-center">
+        <Variants />
+      </div>
+    </div>
   );
 }
