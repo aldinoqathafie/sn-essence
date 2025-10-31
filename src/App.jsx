@@ -17,6 +17,10 @@ export default function App() {
         {/* Manual akses login juga pakai deteksi otomatis */}
         <Route path="/login" element={<Login />} />
 
+        {/* Login khusus untuk perangkat */}
+        <Route path="/MobileLogin" element={<MobileLogin />} />
+        <Route path="/PCLogin" element={<PCLogin />} />
+
         {/* Dashboard admin */}
         <Route path="/admin" element={<AdminDashboard />} />
 
